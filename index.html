@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Runner</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  .container {
+    display: flex;
+    height: 100%;
+  }
+  .code-input, .result-display {
+    flex: 1;
+    padding: 20px;
+  }
+  .code-input {
+    background-color: #f0f0f0;
+  }
+  .result-display {
+    background-color: #fff;
+    border-left: 2px solid #ccc;
+  }
+  textarea {
+    width: 100%;
+    height: 90%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    font-family: monospace;
+  }
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #45a049;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="code-input">
+    <textarea id="code"></textarea>
+    <button onclick="runCode()">Run Code</button>
+  </div>
+  <div class="result-display" id="result">
+    <!-- Results will display here -->
+  </div>
+</div>
+
+<script>
+function runCode() {
+  const code = document.getElementById('code').value;
+  try {
+    const output = eval(code);
+    document.getElementById('result').textContent = output;
+  } catch (e) {
+    document.getElementById('result').textContent = 'Error: ' + e.message;
+  }
+}
+</script>
+</body>
+</html>
