@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Code Environment</title>
+<title>Code Runner</title>
 <style>
   body, html {
     height: 100%;
@@ -58,14 +58,14 @@
     <button onclick="runCode()">Run Code</button>
   </div>
   <div class="iframe-container">
-    <iframe id="sandbox"></iframe>
+    <iframe id="codeRunnerFrame"></iframe>
   </div>
 </div>
 
 <script>
 function runCode() {
   const code = document.getElementById('code').value;
-  const iframe = document.getElementById('sandbox');
+  const iframe = document.getElementById('codeRunnerFrame');
   iframe.contentWindow.document.open();
   iframe.contentWindow.document.write(`
     <html>
