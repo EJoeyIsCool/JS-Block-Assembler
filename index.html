@@ -70,13 +70,16 @@ function runCode() {
   iframe.contentWindow.document.write(`
     <html>
       <body>
-        <script>
-          ${code}
-        </script>
       </body>
     </html>
   `);
   iframe.contentWindow.document.close();
+  // Wait for the iframe to load before executing the script
+  iframe.onload = function() {
+    const script = iframe.contentWindow.document.createElement('script');
+    script.textContent = code;
+    iframe.contentWindow.document.body.appendChild(script);
+  };
 }
 </script>
 </body>
