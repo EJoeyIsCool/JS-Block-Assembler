@@ -14,20 +14,20 @@
     display: flex;
     height: 100%;
   }
-  .code-input, .result-display {
+  .code-input, .iframe-container {
     flex: 1;
     padding: 20px;
   }
   .code-input {
     background-color: #f0f0f0;
   }
-  .result-display {
+  .iframe-container {
     background-color: #fff;
     border-left: 2px solid #ccc;
   }
   textarea {
     width: 100%;
-    height: 90%;
+    height: 75%;
     padding: 10px;
     border: 1px solid #ccc;
     box-sizing: border-box;
@@ -44,6 +44,11 @@
   button:hover {
     background-color: #45a049;
   }
+  iframe {
+    width: 100%;
+    height: 80%;
+    border: none;
+  }
 </style>
 </head>
 <body>
@@ -52,20 +57,26 @@
     <textarea id="code"></textarea>
     <button onclick="runCode()">Run Code</button>
   </div>
-  <div class="result-display" id="result">
-    <!-- Results will display here -->
+  <div class="iframe-container">
+    <iframe id="sandbox"></iframe>
   </div>
 </div>
 
 <script>
 function runCode() {
   const code = document.getElementById('code').value;
-  try {
-    const output = eval(code);
-    document.getElementById('result').textContent = output;
-  } catch (e) {
-    document.getElementById('result').textContent = 'Error: ' + e.message;
-  }
+  const iframe = document.getElementById('sandbox');
+  iframe.contentWindow.document.open();
+  iframe.contentWindow.document.write(`
+    <html>
+      <body>
+        <script>
+          ${code}
+        </script>
+      </body>
+    </html>
+  `);
+  iframe.contentWindow.document.close();
 }
 </script>
 </body>
