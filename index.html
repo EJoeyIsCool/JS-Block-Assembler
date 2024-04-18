@@ -25,13 +25,15 @@
     #right-panel {
         flex: 1;
         display: flex;
-        justify-content: center; /* Centers the iframe horizontally */
-        align-items: center; /* Centers the iframe vertically */
+        flex-direction: column;
+        align-items: center; /* Aligns items in the center */
+        justify-content: space-between; /* Distributes space */
         background-color: #e8e8e8; /* Slightly darker grey than the body */
+        padding: 10px; /* Padding around the panel */
     }
     iframe {
         width: 95%; /* 95% width to leave space around the iframe */
-        height: 90vh; /* 90% viewport height for the iframe */
+        height: 85vh; /* Adjusted height to make space for buttons */
         border: 1px solid #ccc; /* Light grey border around the iframe */
         background-color: #ffffff; /* White background inside the iframe */
     }
@@ -46,7 +48,7 @@
         margin-bottom: 10px; /* Added margin for spacing */
     }
     button {
-        width: 100%;
+        width: 45%; /* Adjust width for side-by-side placement */
         padding: 10px;
         font-size: 16px;
         cursor: pointer;
@@ -54,6 +56,7 @@
         color: white; /* White text color */
         border: none;
         border-radius: 4px; /* Rounded corners */
+        margin: 5px; /* Space between buttons */
     }
 </style>
 <script>
@@ -62,10 +65,31 @@
         var cssCode = document.getElementById('css-input').value;
         var jsCode = document.getElementById('js-input').value;
         var iframe = document.getElementById('result-iframe');
-        var doc = iframe.contentWindow.document;
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
         doc.open();
         doc.write('<!DOCTYPE html><html><head><style>' + cssCode + '</style></head><body>' + htmlCode + '<script>' + jsCode + '<\/script></body></html>');
         doc.close();
+    }
+
+    function resetIframe() {
+        var iframe = document.getElementById('result-iframe');
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        doc.open();
+        doc.write('<!DOCTYPE html><html><body></body></html>');
+        doc.close();
+    }
+
+    function toggleFullscreen() {
+        var iframe = document.getElementById('result-iframe');
+        if (iframe.requestFullscreen) {
+            iframe.requestFullscreen();
+        } else if (iframe.mozRequestFullScreen) { /* Firefox */
+            iframe.mozRequestFullScreen();
+        } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+            iframe.webkitRequestFullscreen();
+        } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+            iframe.msRequestFullscreen();
+        }
     }
 </script>
 </head>
@@ -79,6 +103,10 @@
     </div>
     <div id="right-panel">
         <iframe id="result-iframe"></iframe>
+        <div style="width: 100%; display: flex; justify-content: space-between;">
+            <button onclick="toggleFullscreen()">Fullscreen</button>
+            <button onclick="resetIframe()">Reset</button>
+        </div>
     </div>
 </div>
 </body>
